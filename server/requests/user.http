@@ -1,0 +1,4 @@
+GET http://localhost:3000/api/user/authenticate/admin
+Accept: application/json
+Cookie: authtoken={eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJsYWdvc21zYXVsQGdtYWlsLmNvbSIsImlhdCI6MTc2NzExMTc2Nn0.7qeqZ3EKcTeh8mvjD89L2dkhc4BAJjDpZKOxTmqcnaw}
+

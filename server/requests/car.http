@@ -1,0 +1,13 @@
+PUT http://localhost:3000/api/car/7
+Content-Type: application/json
+
+{
+  "name": "Kia Seltor",
+  "color": "Rojo",
+  "passengers": 5,
+  "plate": "ES 29984",
+  "brandId": 5,
+  "transmissionId": 2,
+  "motorizationId": 2,
+  "price": 1900
+}

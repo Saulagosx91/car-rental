@@ -1,0 +1,11 @@
+GET http://localhost:3000/api/reservation
+Content-Type: application/json
+Cookie: authtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJsYWdvc21zYXVsQGdtYWlsLmNvbSIsImlhdCI6MTc2ODA3MzEzMH0.uiTF9h9vpLFXbSRMjKdwskBEB-_vFkjBvF24M4CKXnY
+
+{
+  "carId": 3,
+  "userId": 5,
+  "start_date": "2024-07-01T10:00:00Z",
+  "return_date": "2024-07-05T10:00:00Z",
+  "total": 4000
+}
