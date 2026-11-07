@@ -74,8 +74,15 @@ export class CarService implements IService<Car> {
     if (!carToDelete) {
       throw new NotFoundException(`Car with id ${id} not found`);
     }
-    carToDelete.update({ isActive: false });
+    carToDelete.update({ is_active: false });
 
     return true;
+  }
+
+  async setAvailable(id: number) {
+    const car = await Car.findByPk(id);
+    if (!car) throw new NotFoundException(`Car with id ${id} not found`);
+    await car.update({ status: 'DISPONIBLE' });
+    return car;
   }
 }

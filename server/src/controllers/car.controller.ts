@@ -91,4 +91,20 @@ export class CarController {
         .json({ message: `Internal Server Error: ${error}` });
     }
   }
+
+  async setCarAvailable(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const car = await carService.setAvailable(id);
+      res.status(HttpStatusCode.OK).json(car);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        res.status(HttpStatusCode.NOT_FOUND).json({ message: error.message });
+        return;
+      }
+      res
+        .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
+        .json({ message: `Internal Server Error: ${error}` });
+    }
+  }
 }

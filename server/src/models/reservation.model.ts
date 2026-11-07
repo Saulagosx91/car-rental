@@ -11,7 +11,15 @@ import Car from './car.model';
 class Reservation extends Model<
   InferAttributes<Reservation>,
   InferCreationAttributes<Reservation>
-> { }
+> {
+  declare id?: number;
+  declare start_date: Date;
+  declare return_date: Date;
+  declare status: 'SOLICITED' | 'CANCELLED' | 'COMPLETED';
+  declare total: number;
+  declare userId: number;
+  declare carId: number;
+}
 
 Reservation.init(
   {
@@ -34,6 +42,14 @@ Reservation.init(
     },
     total: {
       type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
+    carId: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
   },
