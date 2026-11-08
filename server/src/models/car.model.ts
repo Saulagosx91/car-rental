@@ -14,6 +14,7 @@ class Car extends Model<InferAttributes<Car>, InferCreationAttributes<Car>> {
   declare plate: string;
   declare car_image: string | null;
   declare is_active: boolean;
+  declare status: 'DISPONIBLE' | 'RESERVADO';
   declare brandId?: number;
   declare transmissionId?: number;
   declare motorizationId?: number;
@@ -52,6 +53,11 @@ Car.init(
     is_active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    status: {
+      type: DataTypes.ENUM('DISPONIBLE', 'RESERVADO'),
+      defaultValue: 'DISPONIBLE',
+      allowNull: false
     }
   },
   {

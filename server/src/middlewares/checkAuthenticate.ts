@@ -14,11 +14,11 @@ declare global {
   }
 }
 
-async function checkToken(req: Request, res: Response) {
+async function checkToken(req: Request, res: Response): Promise<boolean> {
   const token = req.cookies?.authtoken;
   if (!token) {
     res.status(HttpStatusCode.UNAUTHORIZED).send('Unauthorized');
-    return;
+    return false;
   }
 
   try {
@@ -28,23 +28,26 @@ async function checkToken(req: Request, res: Response) {
       const user = await userService.findOne(Number(payload.id));
       if (!user) {
         res.status(HttpStatusCode.UNAUTHORIZED).json({ message: 'Unauthorized ' });
-        return;
+        return false;
       }
 
       req.user = user;
+      return true;
     }
   } catch (error) {
     console.log(error);
     res.status(HttpStatusCode.UNAUTHORIZED).json({ message: 'Unauthorized ' });
+    return false;
   }
 
+  return false;
 }
 
-async function checkAdminToken(req: Request, res: Response) {
+async function checkAdminToken(req: Request, res: Response): Promise<boolean> {
   const token = req.cookies?.authtoken;
   if (!token) {
     res.status(HttpStatusCode.UNAUTHORIZED).send('Unauthorized');
-    return;
+    return false;
   }
 
   try {
@@ -54,27 +57,34 @@ async function checkAdminToken(req: Request, res: Response) {
       const user = await userService.findOne(Number(payload.id));
       if (!user) {
         res.status(HttpStatusCode.UNAUTHORIZED).json({ message: 'Unauthorized ' });
-        return;
+        return false;
       }
 
       if (user.roleId !== 1) {
         res.status(HttpStatusCode.FORBIDDEN).json({ message: 'Forbidden: Admins only' });
-        return;
+        return false;
       }
 
       req.user = user;
+      return true;
     }
   } catch (error) {
     console.log(error);
     res.status(HttpStatusCode.UNAUTHORIZED).json({ message: 'Unauthorized ' });
+    return false;
   }
 
+  return false;
 }
 
-
 export async function validateAuth(req: Request, res: Response, next: NextFunction) {
-  await checkToken(req, res);
-  next();
+  const ok = await checkToken(req, res);
+  if (ok) next();
+}
+
+export async function validateAdmin(req: Request, res: Response, next: NextFunction) {
+  const ok = await checkAdminToken(req, res);
+  if (ok) next();
 }
 
 export const userAuthenticated = async (req: Request, res: Response) => {
