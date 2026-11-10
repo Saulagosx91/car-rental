@@ -9,7 +9,9 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "roots": ["<rootDir>/src"],
+    "roots": [
+      "<rootDir>/src"
+    ],
     "moduleNameMapper": {
       "^@app/(.*)$": "<rootDir>/src/$1"
     }
@@ -34,7 +36,8 @@
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.7",
     "sequelize-typescript": "^2.1.6",
-    "tsx": "^4.20.6"
+    "tsx": "^4.20.6",
+    "tsyringe": "^4.10.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

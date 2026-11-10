@@ -5,6 +5,7 @@ const reservationApi = api('reservation');
 
 export class ReservationService {
   async create(reservationData) {
+    console.log('Creating reservation with data:', reservationData);
     const response = await reservationApi.post('', reservationData);
     return response.status === 201;
   }

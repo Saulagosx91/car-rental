@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { MotorizationService } from '@app/services/motorization.service';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
-const motorizationService = new MotorizationService();
-
+@injectable()
 export class MotorizationController {
+  constructor(@inject(MotorizationService) private motorizationService: MotorizationService) {}
   async getAllMotorizations(req: Request, res: Response) {
     try {
-      const motorizations = await motorizationService.find();
+      const motorizations = await this.motorizationService.find();
       return res.status(HttpStatusCode.OK).json(motorizations);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -25,7 +26,7 @@ export class MotorizationController {
   async getMotorizationById(req: Request, res: Response) {
     try {
       const motorizationId = Number(req.params.id);
-      const motorization = await motorizationService.findOne(motorizationId);
+      const motorization = await this.motorizationService.findOne(motorizationId);
       res.status(HttpStatusCode.OK).json(motorization);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -41,7 +42,7 @@ export class MotorizationController {
   async createMotorization(req: Request, res: Response) {
     try {
       const motorizationData = req.body;
-      const newMotorization = await motorizationService.create(
+      const newMotorization = await this.motorizationService.create(
         motorizationData
       );
       return res.status(HttpStatusCode.CREATED).json(newMotorization);
@@ -56,7 +57,7 @@ export class MotorizationController {
     try {
       const motorizationId = Number(req.params.id);
       const motorizationData = req.body;
-      const updatedMotorization = await motorizationService.update(
+      const updatedMotorization = await this.motorizationService.update(
         motorizationId,
         motorizationData
       );
@@ -72,7 +73,7 @@ export class MotorizationController {
   async deleteMotorization(req: Request, res: Response) {
     try {
       const motorizationId = Number(req.params.id);
-      await motorizationService.remove(motorizationId);
+      await this.motorizationService.remove(motorizationId);
 
       return res.status(HttpStatusCode.NO_CONTENT).send();
     } catch (error) {

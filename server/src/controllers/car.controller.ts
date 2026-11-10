@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import { CarService } from '@app/services/car.service';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException, BadRequestException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
-const carService = new CarService();
-
+@injectable()
 export class CarController {
+  constructor(@inject(CarService) private carService: CarService) {}
   async getAllCars(req: Request, res: Response) {
     try {
-      const cars = await carService.find();
+      const status = req.query.status as string | undefined;
+      const cars = await this.carService.find(status);
       res.status(HttpStatusCode.OK).json(cars);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -24,7 +26,7 @@ export class CarController {
   async getCarById(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      const car = await carService.findOne(id);
+      const car = await this.carService.findOne(id);
 
       res.status(HttpStatusCode.OK).json(car);
     } catch (error) {
@@ -45,7 +47,7 @@ export class CarController {
         carData.car_image = `/uploads/${req.file.filename}`;
       }
 
-      const newCar = await carService.create(carData);
+      const newCar = await this.carService.create(carData);
       res.status(HttpStatusCode.CREATED).json(newCar);
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -63,7 +65,7 @@ export class CarController {
       const id = Number(req.params.id);
       const carData = req.body;
       console.log(carData);
-      const updatedCar = await carService.update(id, carData);
+      const updatedCar = await this.carService.update(id, carData);
       res.status(HttpStatusCode.OK).json(updatedCar);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -79,7 +81,7 @@ export class CarController {
   async removeCar(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      await carService.remove(id);
+      await this.carService.remove(id);
       res.status(HttpStatusCode.NO_CONTENT).send();
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -95,7 +97,7 @@ export class CarController {
   async setCarAvailable(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
-      const car = await carService.setAvailable(id);
+      const car = await this.carService.setAvailable(id);
       res.status(HttpStatusCode.OK).json(car);
     } catch (error) {
       if (error instanceof NotFoundException) {

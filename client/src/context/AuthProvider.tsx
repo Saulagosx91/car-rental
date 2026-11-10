@@ -18,10 +18,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(userData);
         setIsAuth(true);
 
-        const adminData = await userService.checkAdminAuth();
-        if (adminData) {
-          setUser(adminData);
-          setIsAdmin(true);
+        try {
+          const adminData = await userService.checkAdminAuth();
+          if (adminData) {
+            setUser(adminData);
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        } catch {
+          setIsAdmin(false);
         }
       } catch {
         setUser(null);

@@ -30,7 +30,7 @@ export function useCarData() {
       
       setCarData(prev => ({
         ...prev,
-        brandsResponse,
+        brands: brandsResponse,
         motorization: motorizationsResponse,
         transmission: transmissionsResponse,
         isLoading: false

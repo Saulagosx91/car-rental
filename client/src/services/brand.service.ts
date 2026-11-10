@@ -7,6 +7,7 @@ export class BrandService {
   async find() {
     const { data } = await brandApi.get('');
     const validationResult = SpecificationApiResponse.safeParse(data);
+    console.log(validationResult.success);
     if (validationResult.success) return validationResult.data;
 
     throw new Error('Invalid Api Data');

@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { MotorizationController } from '@app/controllers/motorization.controller';
+import { container } from 'tsyringe';
 
 const motorizationRouter = Router();
-const motorizationController = new MotorizationController();
+const motorizationController = container.resolve(MotorizationController);
 
 motorizationRouter
   .route('/')

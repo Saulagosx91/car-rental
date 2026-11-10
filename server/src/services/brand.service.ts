@@ -1,7 +1,10 @@
+import 'reflect-metadata';
 import Brand from '@app/models/brand.model';
 import { IService } from './IService';
 import { NotFoundException } from '@app/common/exceptions/httpException';
+import { injectable } from 'tsyringe';
 
+@injectable()
 export class BrandService implements IService<Brand> {
   async find() {
     const brands = await Brand.findAll();

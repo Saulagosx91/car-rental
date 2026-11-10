@@ -1,16 +1,24 @@
+import 'reflect-metadata';
 import Car from '@app/models/car.model';
 import Brand from '@app/models/brand.model';
 import Motorization from '@app/models/motorization.model';
 import Transmission from '@app/models/transmission.model';
 import { IService } from './IService';
+import { injectable } from 'tsyringe';
 import {
   NotFoundException,
   BadRequestException,
 } from '@app/common/exceptions/httpException';
 
+@injectable()
 export class CarService implements IService<Car> {
-  async find() {
+  async find(status?: string) {
+    const where: any = {};
+    if (status && status !== 'all') {
+      where.status = status;
+    }
     const cars = await Car.findAll({
+      where,
       include: [Brand, Motorization, Transmission]
     });
     if (cars.length === 0) {

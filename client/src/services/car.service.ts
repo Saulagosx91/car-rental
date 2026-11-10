@@ -5,8 +5,8 @@ import { CarApiResponse, type Car } from "../types";
 const carApi = api('car');
 
 export class CarService {
-  async find() {
-    const { data } = await carApi.get('');
+  async find(status?: string) {
+    const { data } = await carApi.get('', { params: status ? { status } : {} });
     const validationResult = CarApiResponse.safeParse(data);
     if (validationResult.success) return validationResult.data;
 

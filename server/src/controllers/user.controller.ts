@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import { UserService } from "@app/services/user.service";
+import { injectable, inject } from 'tsyringe';
 import { HttpStatusCode } from "@app/common/http/httpStatusCode";
 import { NotFoundException, ForbiddenException } from "@app/common/exceptions/httpException";
 import { CreateUserDTO, LoginUserDTO } from "@app/dtos/user.dto";
 
-const userService = new UserService();
-
+@injectable()
 export class UserController {
+  constructor(@inject(UserService) private userService: UserService) {}
   async find(req: Request, res: Response) {
     try {
-      const users = await userService.find();
+      const users = await this.userService.find();
       res.status(HttpStatusCode.OK).json(users);
 
     } catch (error) {
@@ -25,7 +26,7 @@ export class UserController {
   async create(req: Request, res: Response) {
     try {
       const data: CreateUserDTO = req.body;
-      const token = await userService.create(data);
+      const token = await this.userService.create(data);
 
       res
         .cookie('authtoken', token, {
@@ -50,7 +51,7 @@ export class UserController {
   async login(req: Request, res: Response) {
     try {
       const data: LoginUserDTO = req.body;
-      const token = await userService.login(data.email, data.password);
+      const token = await this.userService.login(data.email, data.password);
 
       res
         .cookie('authtoken', token, {

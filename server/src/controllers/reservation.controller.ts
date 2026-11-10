@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import { ReservationService } from "@app/services/reservation.service";
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException, BadRequestException } from "@app/common/exceptions/httpException";
 import { HttpStatusCode } from "@app/common/http/httpStatusCode";
 import { CreateReservationDto } from "@app/dtos/reservation.dto";
 
-const reservationService = new ReservationService();
-
+@injectable()
 export class ReservationController {
+  constructor(@inject(ReservationService) private reservationService: ReservationService) {}
   async find(req: Request, res: Response) {
     try {
-      const reservations = await reservationService.find();
+      const reservations = await this.reservationService.find();
       return res.status(HttpStatusCode.OK).json(reservations);
 
     } catch (error) {
@@ -23,7 +24,7 @@ export class ReservationController {
   async findOne(req: Request, res: Response) {
     const id = Number(req.params.id);
     try {
-      const reservation = await reservationService.findOne(id);
+      const reservation = await this.reservationService.findOne(id);
       return res.status(HttpStatusCode.OK).json(reservation);
 
     } catch (error) {
@@ -39,7 +40,7 @@ export class ReservationController {
     try {
       const reservationData: CreateReservationDto = req.body;
       reservationData.userId = req.user?.id!;
-      const newReservation = await reservationService.create(reservationData);
+      const newReservation = await this.reservationService.create(reservationData);
       return res.status(HttpStatusCode.CREATED).json(newReservation);
 
     } catch (error) {
@@ -56,7 +57,7 @@ export class ReservationController {
   async findUserReservations(req: Request, res: Response) {
     try {
       const id = req.user?.id;
-      const reservations = await reservationService.findUserReservations(id!);
+      const reservations = await this.reservationService.findUserReservations(id!);
       return res.status(HttpStatusCode.OK).json(reservations);
     } catch (error) {
       if (error instanceof NotFoundException) {

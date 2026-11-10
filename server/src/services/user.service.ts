@@ -1,9 +1,12 @@
+import 'reflect-metadata';
 import bcrypt from 'bcrypt';
 import User from '@app/models/user.model';
 import { ForbiddenException, NotFoundException } from '@app/common/exceptions/httpException';
 import { CreateUserDTO } from '@app/dtos/user.dto';
 import { createToken } from '@app/utils/jwt';
+import { injectable } from 'tsyringe';
 
+@injectable()
 export class UserService {
   async find() {
     const users = await User.findAll();

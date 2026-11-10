@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { BrandService } from '@app/services/brand.service';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
-const brandService = new BrandService();
-
+@injectable()
 export class BrandController {
+  constructor(@inject(BrandService) private brandService: BrandService) {}
   async getAllBrands(req: Request, res: Response) {
     try {
-      const brands = await brandService.find();
+      const brands = await this.brandService.find();
       return res.status(HttpStatusCode.OK).json(brands);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -25,7 +26,7 @@ export class BrandController {
   async getBrandById(req: Request, res: Response) {
     try {
       const brandId = Number(req.params.id);
-      const brand = await brandService.findOne(brandId);
+      const brand = await this.brandService.findOne(brandId);
       res.status(HttpStatusCode.OK).json(brand);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -41,7 +42,7 @@ export class BrandController {
   async createBrand(req: Request, res: Response) {
     try {
       const brandData = req.body;
-      const newBrand = await brandService.create(brandData);
+      const newBrand = await this.brandService.create(brandData);
       return res.status(HttpStatusCode.CREATED).json(newBrand);
     } catch (error) {
       res
@@ -54,7 +55,7 @@ export class BrandController {
     try {
       const brandId = Number(req.params.id);
       const brandData = req.body;
-      const updatedBrand = await brandService.update(brandId, brandData);
+      const updatedBrand = await this.brandService.update(brandId, brandData);
 
       return res.status(HttpStatusCode.OK).json(updatedBrand);
     } catch (error) {
@@ -67,7 +68,7 @@ export class BrandController {
   async deleteBrand(req: Request, res: Response) {
     try {
       const brandId = Number(req.params.id);
-      await brandService.remove(brandId);
+      await this.brandService.remove(brandId);
 
       return res.status(HttpStatusCode.NO_CONTENT).send();
     } catch (error) {
