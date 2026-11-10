@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { TransmissionService } from '@app/services/transmission.service';
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
 @injectable()
 export class TransmissionController {
-  constructor(private transmissionService: TransmissionService) {}
+  constructor(@inject(TransmissionService) private transmissionService: TransmissionService) {}
   async getAllTransmissions(req: Request, res: Response) {
     try {
       const transmission = await this.transmissionService.find();

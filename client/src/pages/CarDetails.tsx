@@ -55,9 +55,9 @@ export function CarDetails() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!dates || !car?.id) return;
     const reservationData = {
       ...dates,
-      total,
       carId: car?.id
     }
 

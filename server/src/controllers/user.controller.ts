@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { UserService } from "@app/services/user.service";
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { HttpStatusCode } from "@app/common/http/httpStatusCode";
 import { NotFoundException, ForbiddenException } from "@app/common/exceptions/httpException";
 import { CreateUserDTO, LoginUserDTO } from "@app/dtos/user.dto";
 
 @injectable()
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(@inject(UserService) private userService: UserService) {}
   async find(req: Request, res: Response) {
     try {
       const users = await this.userService.find();

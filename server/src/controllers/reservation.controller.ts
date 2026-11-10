@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { ReservationService } from "@app/services/reservation.service";
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException, BadRequestException } from "@app/common/exceptions/httpException";
 import { HttpStatusCode } from "@app/common/http/httpStatusCode";
 import { CreateReservationDto } from "@app/dtos/reservation.dto";
 
 @injectable()
 export class ReservationController {
-  constructor(private reservationService: ReservationService) {}
+  constructor(@inject(ReservationService) private reservationService: ReservationService) {}
   async find(req: Request, res: Response) {
     try {
       const reservations = await this.reservationService.find();

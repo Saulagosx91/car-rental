@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { BrandService } from '@app/services/brand.service';
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
 @injectable()
 export class BrandController {
-  constructor(private brandService: BrandService) {}
+  constructor(@inject(BrandService) private brandService: BrandService) {}
   async getAllBrands(req: Request, res: Response) {
     try {
       const brands = await this.brandService.find();

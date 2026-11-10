@@ -49,6 +49,7 @@ export class ReservationService implements IService<Reservation> {
 
   async create(reservationData: CreateReservationDto) {
     const { start_date, return_date, carId, userId } = reservationData;
+    console.log('Creating reservations with user:',userId);
     if (!userId) throw new BadRequestException('User not authenticated');
 
     const startDate = start_date.slice(0, 10);

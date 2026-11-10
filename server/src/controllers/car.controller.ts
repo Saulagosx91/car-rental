@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { CarService } from '@app/services/car.service';
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { NotFoundException, BadRequestException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
 @injectable()
 export class CarController {
-  constructor(private carService: CarService) {}
+  constructor(@inject(CarService) private carService: CarService) {}
   async getAllCars(req: Request, res: Response) {
     try {
       const cars = await this.carService.find();
