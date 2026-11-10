@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { BrandController } from '@app/controllers/brand.controller';
+import { container } from 'tsyringe';
 
 const brandRouter = Router();
-const brandController = new BrandController();
+const brandController = container.resolve(BrandController);
 
 brandRouter
   .route('/')

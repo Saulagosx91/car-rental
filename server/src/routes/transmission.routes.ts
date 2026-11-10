@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { TransmissionController } from '@app/controllers/transmission.controller';
+import { container } from 'tsyringe';
 
 const transmissionRouter = Router();
-const transmissionController = new TransmissionController();
+const transmissionController = container.resolve(TransmissionController);
 
 transmissionRouter
   .route('/')

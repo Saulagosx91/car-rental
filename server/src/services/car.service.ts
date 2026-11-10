@@ -1,13 +1,16 @@
+import 'reflect-metadata';
 import Car from '@app/models/car.model';
 import Brand from '@app/models/brand.model';
 import Motorization from '@app/models/motorization.model';
 import Transmission from '@app/models/transmission.model';
 import { IService } from './IService';
+import { injectable } from 'tsyringe';
 import {
   NotFoundException,
   BadRequestException,
 } from '@app/common/exceptions/httpException';
 
+@injectable()
 export class CarService implements IService<Car> {
   async find() {
     const cars = await Car.findAll({

@@ -1,7 +1,10 @@
+import 'reflect-metadata';
 import Motorization from '@app/models/motorization.model';
 import { IService } from './IService';
 import { NotFoundException } from '@app/common/exceptions/httpException';
+import { injectable } from 'tsyringe';
 
+@injectable()
 export class MotorizationService implements IService<Motorization> {
   async find() {
     const motorizations = await Motorization.findAll();

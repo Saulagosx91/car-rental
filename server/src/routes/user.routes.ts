@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { UserController } from "@app/controllers/user.controller";
+import { container } from 'tsyringe';
 import { CreateUserDTO, LoginUserDTO } from "@app/dtos/user.dto";
 import validateDto from "@app/middlewares/validateDto";
 import { userAuthenticated, adminAuthenticated } from "@app/middlewares/checkAuthenticate";
 
 const userRoutes = Router();
-const userController = new UserController();
+const userController = container.resolve(UserController);
 
 userRoutes
   .route('/')

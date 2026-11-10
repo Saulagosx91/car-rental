@@ -1,7 +1,10 @@
+import 'reflect-metadata';
 import Transmission from '@app/models/transmission.model';
 import { IService } from './IService';
 import { NotFoundException } from '@app/common/exceptions/httpException';
+import { injectable } from 'tsyringe';
 
+@injectable()
 export class TransmissionService implements IService<Transmission> {
   async find() {
     const transmission = await Transmission.findAll();

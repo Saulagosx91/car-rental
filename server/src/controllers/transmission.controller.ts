@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { TransmissionService } from '@app/services/transmission.service';
+import { injectable } from 'tsyringe';
 import { NotFoundException } from '@app/common/exceptions/httpException';
 import { HttpStatusCode } from '@app/common/http/httpStatusCode';
 
-const transmissionService = new TransmissionService();
-
+@injectable()
 export class TransmissionController {
+  constructor(private transmissionService: TransmissionService) {}
   async getAllTransmissions(req: Request, res: Response) {
     try {
-      const transmission = await transmissionService.find();
+      const transmission = await this.transmissionService.find();
       return res.status(HttpStatusCode.OK).json(transmission);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -25,7 +26,7 @@ export class TransmissionController {
   async getTransmissionById(req: Request, res: Response) {
     try {
       const transmissiondId = Number(req.params.id);
-      const transmission = await transmissionService.findOne(transmissiondId);
+      const transmission = await this.transmissionService.findOne(transmissiondId);
       res.status(HttpStatusCode.OK).json(transmission);
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -42,7 +43,7 @@ export class TransmissionController {
     try {
       const transmissiondData = req.body;
   
-      const newTransmissiond = await transmissionService.create(transmissiondData);
+      const newTransmissiond = await this.transmissionService.create(transmissiondData);
       return res.status(HttpStatusCode.CREATED).json(newTransmissiond);
     } catch (error) {
       res
@@ -55,7 +56,7 @@ export class TransmissionController {
     try {
       const transmissiondId = Number(req.params.id);
       const transmissiondData = req.body;
-      const updatedTransmissiond = await transmissionService.update(transmissiondId, transmissiondData);
+      const updatedTransmissiond = await this.transmissionService.update(transmissiondId, transmissiondData);
 
       return res.status(HttpStatusCode.OK).json(updatedTransmissiond);
     } catch (error) {
@@ -68,7 +69,7 @@ export class TransmissionController {
   async deleteTransmissiond(req: Request, res: Response) {
     try {
       const transmissiondId = Number(req.params.id);
-      await transmissionService.remove(transmissiondId);
+      await this.transmissionService.remove(transmissiondId);
 
       return res.status(HttpStatusCode.NO_CONTENT).send();
     } catch (error) {

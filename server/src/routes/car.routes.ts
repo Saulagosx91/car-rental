@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { CarController } from '@app/controllers/car.controller';
+import { container } from 'tsyringe';
 import { CreateCarDto } from '@app/dtos/car.dto';
 import validateDto from '@app/middlewares/validateDto';
 import { upload } from '@app/config/multer';
 import { validateAdmin } from '@app/middlewares/checkAuthenticate';
 
 const carRoutes = Router();
-const carController = new CarController();
+const carController = container.resolve(CarController);
 
 carRoutes
   .route('/')

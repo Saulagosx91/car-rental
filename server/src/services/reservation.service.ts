@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import Reservation from "@app/models/reservation.model";
 import { NotFoundException, BadRequestException } from "@app/common/exceptions/httpException";
 import { IService } from "./IService";
@@ -5,6 +6,7 @@ import { CreateReservationDto } from "@app/dtos/reservation.dto";
 import User from "@app/models/user.model";
 import Car from "@app/models/car.model";
 import { sequelize } from "@app/config/database";
+import { injectable } from 'tsyringe';
 
 const MAX_DAYS = 5;
 const TIMEZONE = 'America/Managua';
@@ -25,6 +27,7 @@ function diffDaysInclusive(start: string, end: string): number {
   return Math.round((e - s) / 86400000) + 1;
 }
 
+@injectable()
 export class ReservationService implements IService<Reservation> {
   async find() {
     const reservations = await Reservation.findAll({
