@@ -17,7 +17,7 @@ export function Catalog() {
 
   useEffect(() => {
     const fetchCars = async () => {
-      const carsData = await carService.find();
+      const carsData = await carService.find('DISPONIBLE');
       setCars(carsData);
     }
     fetchCars();

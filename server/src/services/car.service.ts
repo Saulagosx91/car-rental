@@ -12,8 +12,13 @@ import {
 
 @injectable()
 export class CarService implements IService<Car> {
-  async find() {
+  async find(status?: string) {
+    const where: any = {};
+    if (status && status !== 'all') {
+      where.status = status;
+    }
     const cars = await Car.findAll({
+      where,
       include: [Brand, Motorization, Transmission]
     });
     if (cars.length === 0) {

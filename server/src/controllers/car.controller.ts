@@ -9,7 +9,8 @@ export class CarController {
   constructor(@inject(CarService) private carService: CarService) {}
   async getAllCars(req: Request, res: Response) {
     try {
-      const cars = await this.carService.find();
+      const status = req.query.status as string | undefined;
+      const cars = await this.carService.find(status);
       res.status(HttpStatusCode.OK).json(cars);
     } catch (error) {
       if (error instanceof NotFoundException) {
