@@ -7,13 +7,13 @@ const transmissionController = container.resolve(TransmissionController);
 
 transmissionRouter
   .route('/')
-  .get(transmissionController.getAllTransmissions)
-  .post(transmissionController.createTransmission);
+  .get(transmissionController.getAllTransmissions.bind(transmissionController))
+  .post(transmissionController.createTransmission.bind(transmissionController));
 
 transmissionRouter
   .route('/:id')
-  .get(transmissionController.getTransmissionById)
-  .put(transmissionController.updateTransmissiond)
-  .delete(transmissionController.deleteTransmissiond);
+  .get(transmissionController.getTransmissionById.bind(transmissionController))
+  .put(transmissionController.updateTransmissiond.bind(transmissionController))
+  .delete(transmissionController.deleteTransmissiond.bind(transmissionController));
 
 export default transmissionRouter;

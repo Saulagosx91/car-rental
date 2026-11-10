@@ -10,13 +10,13 @@ const userController = container.resolve(UserController);
 
 userRoutes
   .route('/')
-  .get(userController.find)
-  .post(validateDto(CreateUserDTO), userController.create);
+  .get(userController.find.bind(userController))
+  .post(validateDto(CreateUserDTO), userController.create.bind(userController));
 
 userRoutes.get('/authenticate', userAuthenticated);
 
 userRoutes.get('/authenticate/admin', adminAuthenticated);
 
-userRoutes.post('/login', validateDto(LoginUserDTO), userController.login);
+userRoutes.post('/login', validateDto(LoginUserDTO), userController.login.bind(userController));
 
 export default userRoutes;
