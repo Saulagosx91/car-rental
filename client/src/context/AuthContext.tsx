@@ -6,5 +6,6 @@ interface ContextType {
   isLoading: boolean;
   user: User | null;
   isAdmin: boolean | null;
+  logout: () => Promise<void>;
 }
 export const AuthContext = createContext<ContextType>({} as ContextType);

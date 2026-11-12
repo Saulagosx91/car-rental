@@ -19,4 +19,6 @@ userRoutes.get('/authenticate/admin', adminAuthenticated);
 
 userRoutes.post('/login', validateDto(LoginUserDTO), userController.login.bind(userController));
 
+userRoutes.post('/logout', userController.logout.bind(userController));
+
 export default userRoutes;
