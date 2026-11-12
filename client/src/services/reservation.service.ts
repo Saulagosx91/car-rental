@@ -1,5 +1,5 @@
 import api from '../lib/api';
-import { ReservationAPIResponse } from '../types';
+import { ReservationAPIResponse, ReservationSchema } from '../types';
 
 const reservationApi = api('reservation');
 
@@ -13,11 +13,17 @@ export class ReservationService {
   async find() {
     const { data } = await reservationApi.get('');
     const validationResult = ReservationAPIResponse.safeParse(data);
-    if (!validationResult.success) {
-      console.error('Validation error:', validationResult.error);
-      throw new Error('Invalid reservation data received from API');
-    }
-    return validationResult.data;
+    if (validationResult.success) return validationResult.data;
+
+    throw new Error('Invalid reservation data received from API');
+  }
+
+  async findOne(id: number) {
+    const { data } = await reservationApi.get(`/${id}`);
+    const validationResult = ReservationSchema.safeParse(data);
+    if (validationResult.success) return validationResult.data;
+
+    throw new Error('Invalid reservation data received from API');
   }
 
   async findUserReservations() {

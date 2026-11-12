@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ReservationService } from "../../services"
 import type { Reservation } from "../../types";
 import { formatDate, TRANSLATED_COLUMNS } from "../../utils";
@@ -35,6 +36,7 @@ export function ReservationPage() {
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
           <th>Estado</th>
+          <th>Acciones</th>
         </thead>
         <tbody className="text-center">
           <tr className="h-12 border-b border-gray-300">
@@ -60,6 +62,11 @@ export function ReservationPage() {
                 <td>{formatDate(reservation.start_date)}</td>
                 <td>{formatDate(reservation.return_date)}</td>
                 <td>{TRANSLATED_COLUMNS[reservation.status]}</td>
+                <td>
+                  <Link to={`/dashboard/reservation/${reservation.id}`} className="text-blue-600 hover:underline">
+                    Ver detalles
+                  </Link>
+                </td>
               </tr>
             ))
           }
