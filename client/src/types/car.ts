@@ -25,6 +25,7 @@ export const CarSchema = z.object({
   passengers: z.number(),
   plate: z.string(),
   car_image: z.string().nullable(),
+  status: z.string().optional(),
   Brand: carSpecificaton,
   Transmission: carSpecificaton,
   Motorization: carSpecificaton

@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 export function SideBar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
 
   const routes = [
     { name: 'Vehiculos', path: '/dashboard/vehicles' },
@@ -22,7 +22,9 @@ export function SideBar() {
   return (
     <aside style={{ gridArea: 'sidebar' }} className="border w-62.5 h-full border-gray-200 overflow-x-hidden fixed">
       <header className="border-b mb-2 w-full border-gray-200 h-18 flex flex-col justify-center items-center" style={{ gridArea: 'header' }}>
-        <span className="text-xl font-bold text-center">Hola, {user?.username}</span>
+        <Link to='/dashboard' className='flex items-center gap-2 text-xl font-bold text-slate-900'>
+          <span className='grid h-9 w-9 place-items-center rounded-lg bg-blue-600 text-white'>R</span>
+        </Link>
         <span className="text-sm font-extralight">Rent a car management</span>
       </header>
       <nav className="p-2">
@@ -34,8 +36,8 @@ export function SideBar() {
           }
         </ul>
       </nav>
-      <footer className="absolute bottom-10 w-full border-t border-gray-200 h-12" style={{ gridArea: 'footer' }}>
-        <button onClick={handleLogout} className="py-2 hover:bg-red-100 cursor-pointer px-4 rounded text-red-500 font-bold">Cerrar sesión</button>
+      <footer className="absolute bottom-10 w-full border-t border-gray-200 h-12 px-2" style={{ gridArea: 'footer' }}>
+        <button onClick={handleLogout} className="py-2 hover:bg-red-100 cursor-pointer px-4 w-full rounded text-left text-red-500 font-bold">Cerrar sesión</button>
       </footer>
     </aside>
   )
