@@ -1,10 +1,17 @@
 import api from "../lib/api";
 import type { UserFormData } from "../types";
-import { UserSchema } from "../types";
+import { UserSchema, UserApiResponse } from "../types";
 
 const userApi = api('user');
 
 export class UserService {
+  async find() {
+    const { data } = await userApi.get('');
+    const validationResult = UserApiResponse.safeParse(data);
+    if (validationResult.success) return validationResult.data;
+    throw new Error('Invalid Api Data');
+  }
+
   async create(userData: UserFormData) {
     const { data } = await userApi.post('', userData);
     return data;
