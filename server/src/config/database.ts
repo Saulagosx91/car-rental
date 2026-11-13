@@ -12,5 +12,3 @@ export const sequelize = new Sequelize({
   host: DB_HOST || 'localhost',
   dialect: (DB_DIALECT as any) || 'mysql',
 });
-
-// export const sequelize = new Sequelize(String(process.env.DATABASE_URL));

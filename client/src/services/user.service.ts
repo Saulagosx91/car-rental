@@ -28,4 +28,8 @@ export class UserService {
     const { data } = await userApi.post('/login', userData);
     console.log(data);
   }
+
+  async logout() {
+    await userApi.post('/logout');
+  }
 }

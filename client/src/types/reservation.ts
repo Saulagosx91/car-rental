@@ -2,7 +2,7 @@ import { z } from 'zod';
 // import { CarSchema } from './car';
 import { UserSchema } from './user';
 
-const ReservationSchema = z.object({
+export const ReservationSchema = z.object({
   id: z.number(),
   userId: z.number(),
   total: z.number(),
@@ -13,7 +13,12 @@ const ReservationSchema = z.object({
   Car: z.object({
     id: z.number(),
     name: z.string(),
-    car_image: z.string()
+    car_image: z.string().nullable(),
+    price: z.number(),
+    color: z.string().nullable(),
+    passengers: z.number(),
+    plate: z.string(),
+    status: z.string()
   }),
   User: UserSchema.optional()
 });

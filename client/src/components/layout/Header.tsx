@@ -1,8 +1,15 @@
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 export function Header() {
-  const { isAuth, user } = useAuth();
+  const { isAuth, user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
 
   return (
     <header className='sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur'>
@@ -16,7 +23,12 @@ export function Header() {
           <Link to='/catalogo' className='transition hover:text-blue-600'>Autos</Link>
           <Link to='/reservas' className='transition hover:text-blue-600'>Reservas</Link>
           {isAuth ? (
-            <span className='rounded-full bg-blue-600 px-4 py-2 text-white'>Hola, {user?.username}</span>
+            <>
+              <span className='rounded-full bg-blue-600 px-4 py-2 text-white'>Hola, {user?.username}</span>
+              <button onClick={handleLogout} className='rounded-full border border-blue-600 px-4 py-2 text-blue-600 transition hover:bg-blue-50'>
+                Cerrar sesión
+              </button>
+            </>
           ) : (
             <Link to='/auth' className='rounded-full bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700'>
               Comenzar

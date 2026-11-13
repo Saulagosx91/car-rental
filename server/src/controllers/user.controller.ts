@@ -74,4 +74,13 @@ export class UserController {
         .json({ message: `Internal Server Error: ${error}` });
     }
   }
+
+  async logout(req: Request, res: Response) {
+    res.clearCookie('authtoken', {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production'
+    });
+    res.status(HttpStatusCode.OK).json({ message: 'Logged out' });
+  }
 }

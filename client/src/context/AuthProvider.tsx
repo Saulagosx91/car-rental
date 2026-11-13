@@ -11,6 +11,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
+  const logout = async () => {
+    try {
+      await userService.logout();
+    } catch {
+      // ignore
+    }
+    setUser(null);
+    setIsAuth(false);
+    setIsAdmin(false);
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -42,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuth, isAdmin, isLoading, user }}>
+    <AuthContext.Provider value={{ isAuth, isAdmin, isLoading, user, logout }}>
       {children}
     </AuthContext.Provider>
   );
